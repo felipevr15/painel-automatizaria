@@ -283,13 +283,15 @@ app.use((err, req, res, next) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res, next) => {
   if (req.originalUrl.startsWith('/api/')) {
     res.status(404).json({ error: 'Endpoint não encontrado' });
   } else {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
   }
 });
+
+
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Painel Automatizaria rodando na porta ${port}`);
